@@ -1,14 +1,11 @@
 return {
-    "scottmckendry/dashboard-nvim",
+    "nvimdev/dashboard-nvim",
     event = "VimEnter",
     dev = true,
     config = function()
         vim.cmd("highlight DashboardHeader guifg=#ffffff")
         require("dashboard").setup({
             theme = "hyper",
-            hide = {
-                statusline = false,
-            },
             config = {
                 week_header = { enable = true },
                 shortcut = {
@@ -25,7 +22,9 @@ return {
                         icon_hl = "Boolean",
                         desc = "Files ",
                         group = "Statement",
-                        action = "Telescope find_files",
+                        action = function()
+                            Snacks.picker.files()
+                        end,
                         key = "f",
                     },
                     {
@@ -33,7 +32,9 @@ return {
                         icon_hl = "Boolean",
                         desc = "Recent ",
                         group = "String",
-                        action = "Telescope oldfiles",
+                        action = function()
+                            Snacks.picker.recent()
+                        end,
                         key = "r",
                     },
                     {
@@ -41,7 +42,9 @@ return {
                         icon_hl = "Boolean",
                         desc = "Grep ",
                         group = "ErrorMsg",
-                        action = "Telescope live_grep",
+                        action = function()
+                            Snacks.picker.grep()
+                        end,
                         key = "g",
                     },
                     {

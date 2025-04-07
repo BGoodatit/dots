@@ -1,7 +1,9 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+vim.g.user = os.getenv("USERNAME") or os.getenv("USER")
 
 local opt = vim.opt
+opt.shell = "zsh"
 
 -- Set shell to PowerShell 7 if on Win32 or Win64
 if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
@@ -18,7 +20,7 @@ end
 opt.number = true
 opt.relativenumber = true
 opt.ignorecase = true
-opt.cursorline = false
+opt.cursorline = true
 opt.clipboard = "unnamedplus"
 opt.termguicolors = true
 opt.confirm = true
@@ -32,11 +34,18 @@ opt.linebreak = true
 opt.spelllang = "en_nz"
 opt.showtabline = 0
 
+-- Set statusline
+opt.laststatus = 3
+opt.statusline = require("core.statusline").statusline
+
 -- Set tab width
 opt.tabstop = 4
 opt.shiftwidth = 4
-opt.autoindent = true
 opt.expandtab = true
+opt.autoindent = true
+opt.breakindent = true
+opt.breakindentopt = "shift:2"
+opt.showbreak = "↳"
 
 -- Make cursor blink
 opt.guicursor = {

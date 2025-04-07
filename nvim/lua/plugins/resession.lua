@@ -1,9 +1,31 @@
 return {
     "stevearc/resession.nvim",
+    dependencies = {
+        {
+            "scottmckendry/pick-resession.nvim",
+            dev = true,
+            config = function()
+                require("pick-resession").setup({
+                    path_icons = {
+                        { match = "C:/Users/" .. vim.g.user .. "/git/", icon = " ", highlight = "Changed" },
+                        { match = "/home/" .. vim.g.user .. "/git/", icon = " ", highlight = "Changed" },
+                        { match = "C:/Users/" .. vim.g.user .. "/", icon = " ", highlight = "Special" },
+                        { match = "/home/" .. vim.g.user .. "/", icon = " ", highlight = "Special" },
+                    },
+                })
+            end,
+        },
+    },
     lazy = false,
     config = function()
         local resession = require("resession")
-        resession.setup({})
+        resession.setup({
+            autosave = {
+                enabled = true,
+                interval = 60,
+                notify = false,
+            },
+        })
         vim.api.nvim_create_autocmd("VimEnter", {
             callback = function()
                 -- Only load the session if nvim was started with no args

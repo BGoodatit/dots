@@ -17,9 +17,9 @@ function lsPretty() {
 function checkUpdates() {
     updates=$(brew outdated | wc -l)
     if [ $updates -gt 1 ]; then
-        sed -i "s/SOFTWARE_UPDATE_AVAILABLE=.*/SOFTWARE_UPDATE_AVAILABLE=\"\ \"/" ~/.bash_profile
+        sed -i '' "s/SOFTWARE_UPDATE_AVAILABLE=.*/SOFTWARE_UPDATE_AVAILABLE=\"\ \"/" ~/.bash_profile
     else
-        sed -i "s/SOFTWARE_UPDATE_AVAILABLE=.*/SOFTWARE_UPDATE_AVAILABLE=\"\"/" ~/.bash_profile
+        sed -i '' "s/SOFTWARE_UPDATE_AVAILABLE=.*/SOFTWARE_UPDATE_AVAILABLE=\"\"/" ~/.bash_profile
     fi
 }
 
@@ -29,17 +29,17 @@ function checkDotfilesUpdate() {
     git fetch >/dev/null
     updates=$(git status | grep -q "behind" && echo "true" || echo "false")
     if $updates; then
-        sed -i "s/DOTFILES_UPDATE_AVAILABLE=.*/DOTFILES_UPDATE_AVAILABLE=\"󱤜 \"/" ~/.bash_profile
+        sed -i '' "s/DOTFILES_UPDATE_AVAILABLE=.*/DOTFILES_UPDATE_AVAILABLE=\"󱈗\"/" ~/.bash_profile
     else
-        sed -i "s/DOTFILES_UPDATE_AVAILABLE=.*/DOTFILES_UPDATE_AVAILABLE=\"\"/" ~/.bash_profile
+        sed -i '' "s/DOTFILES_UPDATE_AVAILABLE=.*/DOTFILES_UPDATE_AVAILABLE=\"\"/" ~/.bash_profile
     fi
 }
 
-# Update software using apt
+# Update software using brew
 function updateSoftware() {
-    sudo apt update -y && sudo apt upgrade -y
+    #sudo softwareupdate -i -a
     brew upgrade
-    sed -i "s/SOFTWARE_UPDATE_AVAILABLE=.*/SOFTWARE_UPDATE_AVAILABLE=\"\"/" ~/.bash_profile
+    sed -i '' "s/SOFTWARE_UPDATE_AVAILABLE=.*/SOFTWARE_UPDATE_AVAILABLE=\"\"/" ~/.bash_profile
     . ~/.bash_profile
 }
 
@@ -52,7 +52,7 @@ function updateDotfiles() {
     git stash pop
     ./setup.sh
     cd $currentDir
-    sed -i "s/DOTFILES_UPDATE_AVAILABLE=.*/DOTFILES_UPDATE_AVAILABLE=\"\"/" ~/.bash_profile
+    sed -i '' "s/DOTFILES_UPDATE_AVAILABLE=.*/DOTFILES_UPDATE_AVAILABLE=\"\"/" ~/.bash_profile
     . ~/.bash_profile
 }
 
@@ -90,4 +90,8 @@ fastfetch -l ~/.config/fastfetch/logos/ascii.txt
 
 PROMPT_COMMAND='source ~/.bash_profile;'$PROMPT_COMMAND
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+if [ -d /opt/homebrew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"  # Apple Silicon
+elif [ -d /usr/local ]; then
+  eval "$(/usr/local/bin/brew shellenv)"     # Intel
+fi

@@ -14,10 +14,10 @@ return {
         "Bilal2453/luvit-meta",
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
-        "hrsh7th/cmp-nvim-lsp",
         "smiteshp/nvim-navic",
     },
     config = function()
+        local lspconfig = require("lspconfig")
         local mason_registry = require("mason-registry")
         require("lspconfig.ui.windows").default_options.border = "rounded"
 
@@ -38,16 +38,20 @@ return {
             "dockerls",
             "html",
             "jsonls",
+            "nil_ls",
             "tailwindcss",
             "taplo",
+            "templ", -- requires gopls in PATH, mason probably won't work depending on the OS
+            "terraformls",
+            "ts_ls",
             "yamlls",
         }
         for _, server in pairs(no_config_servers) do
-            require("lspconfig")[server].setup({})
+            lspconfig[server].setup({})
         end
 
         -- Go
-        require("lspconfig").gopls.setup({
+        lspconfig.gopls.setup({
             settings = {
                 gopls = {
                     completeUnimported = true,
@@ -59,37 +63,25 @@ return {
             },
         })
 
-        -- Templ
-        require("lspconfig").templ.setup({})
-        vim.filetype.add({
-            extension = {
-                templ = "templ",
+        -- Odin
+        lspconfig.ols.setup({
+            init_options = {
+                checker_args = "-vet -strict-style",
+                enable_references = true,
             },
         })
 
         -- Bicep
-        local bicep_path = vim.fn.stdpath("data") .. "/mason/packages/bicep-lsp/bicep-lsp.cmd"
-        require("lspconfig").bicep.setup({
+        local bicep_path = vim.fn.stdpath("data") .. "/mason/packages/bicep-lsp/bicep-lsp"
+        lspconfig.bicep.setup({
             cmd = { bicep_path },
-        })
-        vim.filetype.add({
-            extension = {
-                bicepparam = "bicep",
-            },
-        })
-
-        -- C#
-        local omnisharp_path = vim.fn.stdpath("data") .. "/mason/packages/omnisharp/libexec/omnisharp.dll"
-        require("lspconfig").omnisharp.setup({
-            cmd = { "dotnet", omnisharp_path },
-            enable_ms_build_load_projects_on_demand = true,
         })
 
         -- Lua
-        require("lspconfig").lua_ls.setup({
+        lspconfig.lua_ls.setup({
             on_init = function(client)
                 local path = client.workspace_folders[1].name
-                if not vim.loop.fs_stat(path .. "/.luarc.json") and not vim.loop.fs_stat(path .. "/.luarc.jsonc") then
+                if not vim.uv.fs_stat(path .. "/.luarc.json") and not vim.uv.fs_stat(path .. "/.luarc.jsonc") then
                     client.config.settings = vim.tbl_deep_extend("force", client.config.settings, {
                         Lua = {
                             runtime = {
@@ -110,8 +102,23 @@ return {
 
         -- PowerShell
         local bundle_path = mason_registry.get_package("powershell-editor-services"):get_install_path()
-        require("lspconfig").powershell_es.setup({
+        lspconfig.powershell_es.setup({
             bundle_path = bundle_path,
+            settings = { powershell = { codeFormatting = { Preset = "Stroustrup" } } },
+        })
+
+        -- Rust
+        lspconfig.rust_analyzer.setup({
+            settings = {
+                ["rust-analyzer"] = {
+                    checkOnSave = {
+                        command = "clippy",
+                    },
+                    cargo = {
+                        loadOutDirsFromCheck = true,
+                    },
+                },
+            },
         })
     end,
 }

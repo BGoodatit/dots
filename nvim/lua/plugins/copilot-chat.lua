@@ -1,6 +1,5 @@
 return {
     "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
     cmd = "CopilotChat",
     keys = {
         {
@@ -8,7 +7,7 @@ return {
             function()
                 return require("CopilotChat").toggle()
             end,
-            desc = "Toggle (CopilotChat)",
+            desc = "Toggle",
             mode = { "n", "v" },
         },
         {
@@ -16,7 +15,7 @@ return {
             function()
                 return require("CopilotChat").reset()
             end,
-            desc = "Clear (CopilotChat)",
+            desc = "Clear",
             mode = { "n", "v" },
         },
         {
@@ -27,18 +26,17 @@ return {
                     require("CopilotChat").ask(input)
                 end
             end,
-            desc = "Quick Chat (CopilotChat)",
+            desc = "Quick Chat",
             mode = { "n", "v" },
         },
         {
             "<leader>ac",
             ":CopilotChatCommit<cr>",
-            desc = "Commit (CopilotChat)",
+            desc = "Commit",
             mode = { "n", "v" },
         },
     },
     config = function()
-        require("CopilotChat.integrations.cmp").setup()
         vim.api.nvim_create_autocmd("BufEnter", {
             pattern = "copilot-chat",
             callback = function()
@@ -48,21 +46,25 @@ return {
         })
 
         require("CopilotChat").setup({
-            model = "gpt-4",
+            model = "claude-3.5-sonnet",
             auto_insert_mode = true,
+            chat_autocomplete = false,
             show_help = false,
             show_folds = false,
-            question_header = "  Scott ",
+            question_header = "  " .. vim.g.user:gsub("^%l", string.upper) .. " ",
             answer_header = "  Copilot ",
             window = {
                 layout = "float",
-                width = 0.6,
-                height = 0.7,
+                relative = "editor",
+                row = 0,
+                col = vim.o.columns - 80,
+                width = 80,
+                height = vim.o.lines - 3,
                 border = "rounded",
             },
             mappings = {
                 close = {
-                    insert = "C-q",
+                    insert = "C-q", -- removes the default C-c mapping
                 },
             },
             selection = function(source)

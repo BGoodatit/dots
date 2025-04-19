@@ -13,6 +13,8 @@ Ansible
 apache
 API
 api
+APIM
+APIs
 app
 appimage
 apps
@@ -53,7 +55,9 @@ backtrace
 backtraces
 base64
 bashrc
+Bicep
 Bitbucket
+Bitwarden
 blockchain
 blockchains
 blockquote
@@ -80,6 +84,8 @@ changelog
 changelogs
 changesets
 cheatsheet
+checkbox
+checkboxes
 checklist
 chmod
 choco
@@ -208,6 +214,7 @@ gitignore
 Gitlab
 gitlab
 gitmodules
+GitOps
 gitrevisions
 GitUI
 globbing
@@ -245,6 +252,8 @@ homebrew
 homelab
 hostname
 https
+hypervisor
+IaC
 iCloud
 IDE
 IDOC
@@ -269,6 +278,7 @@ ios
 IoT
 IP
 ip
+IPs
 IPsec
 ipv4
 ipv6
@@ -283,13 +293,14 @@ JPEG
 jpeg
 jpg
 jq
-jQuery
 JQuery
+jQuery
 js
 JSON
 json
 Jupyter
 jupyter
+K3s
 kanban
 kde
 KeePass
@@ -320,8 +331,8 @@ LaTex
 Lazydocker
 Lazygit
 lazygit
-Lazyvim
 LazyVim
+Lazyvim
 len
 lexer
 lifecycle
@@ -347,8 +358,8 @@ lualine
 LVM
 macbook
 macbooks
-macOS
 MacOS
+macOS
 macos
 manpage
 MariaDB
@@ -383,6 +394,8 @@ NAS
 Neovim
 neovim
 Nginx
+NixOS
+nixos
 noice
 NoSQL
 npm
@@ -431,6 +444,7 @@ polybar
 polymorph
 POP3
 popup
+Portainer
 posix
 postgres
 PostgreSQL
@@ -439,6 +453,8 @@ PowerShell
 powershell
 prepended
 proc
+Prometheus
+Proxmox
 ps1
 pylint
 python3
@@ -492,6 +508,7 @@ SKUs
 smartphone
 soundcloud
 sourceforge
+specs
 spinoff
 spotify
 sql
@@ -507,6 +524,7 @@ stdin
 stdout
 struct
 structs
+stylix
 subkey
 subkeys
 sublist
@@ -524,6 +542,8 @@ symlink
 symlinked
 symlinks
 systemd
+Talos
+TBD
 TCSEC
 TensorFlow
 Terraform
@@ -577,6 +597,7 @@ uuid
 var
 virtualenv
 VM
+VMs
 VPS
 VueJS
 warmup
@@ -615,6 +636,7 @@ XSS
 xss
 YAML
 yaml
+YMMV
 youtube
 Zellij
 zig
